@@ -12,12 +12,12 @@ a{
     color: #efe4f1;
 }
 
-#answers{
+.options{
     display: flex;
     flex-direction: column;
 }
 
-.answer-btn{
+.option{
     background-color: #c6bfc7;
     color: #5780b5;
     border: none;
@@ -29,7 +29,7 @@ a{
     transition: 0.5s ease-out;
 }
 
-.answer-btn:hover{
+.option:hover{
     background-color: #efe4f1;
     
 }
@@ -57,4 +57,14 @@ a{
 
 .hidden{
     display: none;
+}
+
+.option.correct{
+    background-color: #12af4e;
+    color: #5780b5;
+}
+
+.option.incorrect{
+    background-color: #b40c4f;
+    color: #5780b5;
 }

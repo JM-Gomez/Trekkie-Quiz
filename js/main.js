@@ -31,44 +31,51 @@ const quizQuestions = [
 ];
 
 const questionElement = document.getElementById("question");
-const optionsElement = document.getElementById("options");
-const answerButton = document.getElementById("answer");
+const optionElement = document.querySelectorAll(".option");
+const timerElement = document.getElementById("timer");
 const nextButton = document.getElementById("next-btn");
+const resultElement = document.getElementById("result");
+const scoreElement = document.getElementById("score");
+
 
 let currentQuestionIndex = 0;
-let score = 0; 
+let score = 0;
+let timeLeft = 10; // 10 seconds for each question
+let timer;
+let answerSelected = false;
+
 
 function startQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
-    nextButton.innerHTML = "Next";
-    showQuestion();
+    const { question, options } = quizQuestions[currentQuestionIndex];
+    questionElement.textContent = question;
+    optionElement.forEach((option, index) => {
+        option.textContent = options[index];
+        option.classList.remove("correct", "incorrect");
+        option.onclick = () => selectoption(option);
+    });
+    answerSelected = false;
 }
 
-function showQuestion() {
-    const currentQuestion = quizQuestions[currentQuestionIndex];
-    let questionNo = currentQuestionIndex + 1;
-    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+function selectoption(selectedOption) {
+    if (!answerSelected) { //return; // Prevent multiple selections
+    answerSelected = true;
+
+    const selectedAnswer = selectedOption.textContent;
+    const correctAnswer = quizQuestions[currentQuestionIndex].answer;
+    if (selectedAnswer === correctAnswer) {
+        selectedOption.classList.add("correct"); 
+        } else {
+        selectedOption.classList.add("incorrect");
+        optionElement.forEach(selectedOption => {
+            if (selectedOption.textContent === correctAnswer) {
+                selectedOption.classList.add("correct");
+            }
+        });
+    }
+    }
+
+    clearInterval(timer);
+    nextButton.disabled = false;
 }
 
-function checkAnswer(selectedOption) {
-    const currentQuestion = quizQuestions[currentQuestionIndex];
-    if (selectedOption === currentQuestion.answer) {
-        score++;
-        alert("Correct!");
-    } else {
-        alert(`Wrong! The correct answer is: ${currentQuestion.answer}`);
-    }
-    currentQuestionIndex++;
-    if (currentQuestionIndex < quizQuestions.length) {
-        showQuestion();
-    } else {
-        endQuiz();
-    }
-}
-function endQuiz() {
-    questionElement.innerHTML = `Quiz Over! Your score is ${score} out of ${quizQuestions.length}.`;
-    answerButton.innerHTML = "";
-    nextButton.innerHTML = "Restart";
-    nextButton.onclick = startQuiz;
-}
+startQuiz();
