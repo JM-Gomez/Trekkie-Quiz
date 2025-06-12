@@ -12,7 +12,7 @@ const quizQuestions = [
         
     },
     {
-        question: "What is the name of the Vulcan greeting?",
+        question: "What is the Vulcan greeting?",
         options: ["Live long and prosper", "Resistance is futile", "Make it so", "Beam me up, Scotty"],
         answer: "Live long and prosper",
         
@@ -64,6 +64,7 @@ function selectoption(selectedOption) {
     const selectedAnswer = selectedOption.textContent;
     const correctAnswer = quizQuestions[currentQuestionIndex].answer;
     if (selectedAnswer === correctAnswer) {
+        score++;
         selectedOption.classList.add("correct"); 
         } else {
         selectedOption.classList.add("incorrect");
@@ -83,12 +84,19 @@ function loadNextQuestion() {
         currentQuestionIndex++;
         startQuiz();
     } else {
-        
+        showResult();
     }
 }
 
 nextButton.addEventListener("click", () => {
     loadNextQuestion();
 });
+
+function showResult() {
+    const quizElement = document.getElementById("quiz");
+    quizElement.classList.add("hidden");
+    resultElement.classList.remove("hidden");
+    scoreElement.textContent = `${score} out of ${quizQuestions.length}`;
+}
 
 startQuiz();
