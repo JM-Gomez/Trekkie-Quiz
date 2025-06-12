@@ -54,6 +54,7 @@ function startQuiz() {
         option.onclick = () => selectoption(option);
     });
     answerSelected = false;
+    nextButton.disabled = true; // Disable next button until an option is selected
 }
 
 function selectoption(selectedOption) {
@@ -69,13 +70,25 @@ function selectoption(selectedOption) {
         optionElement.forEach(selectedOption => {
             if (selectedOption.textContent === correctAnswer) {
                 selectedOption.classList.add("correct");
-            }
-        });
+                }
+            });
+        }
+        nextButton.disabled = false; // Enable next button after selection
     }
-    }
-
-    clearInterval(timer);
-    nextButton.disabled = false;
 }
+
+function loadNextQuestion() {
+
+    if (currentQuestionIndex < quizQuestions.length - 1) {
+        currentQuestionIndex++;
+        startQuiz();
+    } else {
+        
+    }
+}
+
+nextButton.addEventListener("click", () => {
+    loadNextQuestion();
+});
 
 startQuiz();
