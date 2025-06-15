@@ -124,9 +124,9 @@ nextButton.addEventListener("click", () => {
 });
 
 function startTimer() {
-    timeLeft = 10; // Reset timer for each question
+    timeLeft = 15; // Reset timer for each question
     timerElement.textContent = `Time left: ${timeLeft}s`;
-    //clearInterval(timer); // Clear any existing timer
+    clearInterval(timer); // Clear any existing timer
     timer = setInterval(() => {
         timeLeft--;
         timerElement.textContent = `Time left: ${timeLeft}s`;
