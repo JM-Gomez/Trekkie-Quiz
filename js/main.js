@@ -43,7 +43,7 @@ const quizQuestions = [
     {
         question: "What is the name of the Starfleet ship that was built to fight the Borg?",
         options: ["USS Akira", "USS Voyager", "USS Defiant", "USS Excelsior"],
-        answer: "USS Enterprise-E",
+        answer: "USS Defiant",
         
     },
     {
@@ -76,6 +76,10 @@ let answerSelected = false;
 
 
 function startQuiz() {
+    quizQuestions.sort(
+  function() { 
+    return 0.5 - Math.random();
+  });
     const { question, options } = quizQuestions[currentQuestionIndex];
     questionElement.textContent = question;
     optionElement.forEach((option, index) => {
@@ -86,6 +90,7 @@ function startQuiz() {
     answerSelected = false;
     nextButton.disabled = true; // Disable next button until an option is selected
     startTimer(); // Start the timer for the current question
+    
 }
 
 function selectoption(selectedOption) {
