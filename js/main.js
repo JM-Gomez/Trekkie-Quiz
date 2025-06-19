@@ -70,16 +70,20 @@ const scoreElement = document.getElementById("score");
 
 let currentQuestionIndex = 0;
 let score = 0;
-let timeLeft = 10; // 10 seconds for each question
+let timeLeft = 15; // 15 seconds for each question
 let timer;
 let answerSelected = false;
 
 
+function shuffle(quizQuestions) {
+    for (let i = quizQuestions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [quizQuestions[i], quizQuestions[j]] = [quizQuestions[j], quizQuestions[i]];
+    }
+}
+
+
 function startQuiz() {
-    quizQuestions.sort(
-  function() { 
-    return 0.5 - Math.random();
-  });
     const { question, options } = quizQuestions[currentQuestionIndex];
     questionElement.textContent = question;
     optionElement.forEach((option, index) => {
@@ -92,6 +96,7 @@ function startQuiz() {
     startTimer(); // Start the timer for the current question
     
 }
+
 
 function selectoption(selectedOption) {
     if (!answerSelected) { //return; // Prevent multiple selections
@@ -137,12 +142,21 @@ function startTimer() {
         timerElement.textContent = `Time left: ${timeLeft}s`;
         if (timeLeft <= 0) {
             clearInterval(timer);
-            //showResult();
-            if (!answerSelected) {
+            if (!answerSelected) { 
+                // Highlight the correct answer
+                const correctAnswer = quizQuestions[currentQuestionIndex].answer;
+                optionElement.forEach(option => {
+                    if (option.textContent === correctAnswer) {
+                        option.classList.add("correct");
+                    }
+                });
+                
+                setTimeout(() => {              
                 loadNextQuestion(); // Automatically load next question if time runs out
-            }
+            }, 1500);// Wait 1.5 seconds before loading the next question
         }
-    }, 1000);
+    }
+    }, 1000); // Update every second
 }
 startTimer();
 
@@ -166,5 +180,7 @@ function showResult() {
     resultElement.querySelector("p").textContent = message;
     
 }
+
+shuffle(quizQuestions); // Shuffle the questions at the start
 
 startQuiz();
