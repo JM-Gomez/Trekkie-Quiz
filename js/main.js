@@ -1,4 +1,5 @@
-const quizQuestions = [
+
+const quizQuestions = [// Array of quiz questions with options and answers
     {
         question: "What is the name of the Captain of the USS Enterprise NCC-1701-D?",
         options: ["Jean-Luc Picard", "William Riker", "Benjamin Sisko", "Catherine Janeway"],
@@ -75,7 +76,7 @@ let timer;
 let answerSelected = false;
 
 
-function shuffle(quizQuestions) {
+function shuffle(quizQuestions) {// Function to shuffle the quiz questions
     for (let i = quizQuestions.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [quizQuestions[i], quizQuestions[j]] = [quizQuestions[j], quizQuestions[i]];
@@ -83,7 +84,7 @@ function shuffle(quizQuestions) {
 }
 
 
-function startQuiz() {
+function startQuiz() {// Function to start the quiz and display the first question
     const { question, options } = quizQuestions[currentQuestionIndex];
     questionElement.textContent = question;
     optionElement.forEach((option, index) => {
@@ -133,7 +134,7 @@ nextButton.addEventListener("click", () => {
     loadNextQuestion();
 });
 
-function startTimer() {
+function startTimer() {// Function to start the timer for each question
     timeLeft = 15; // Reset timer for each question
     timerElement.textContent = `Time left: ${timeLeft}s`;
     clearInterval(timer); // Clear any existing timer
@@ -158,15 +159,15 @@ function startTimer() {
     }
     }, 1000); // Update every second
 }
-startTimer();
+startTimer(); // Start the timer for the first question
 
-function showResult() {
+function showResult() {// Function to display the final score and message
     const quizElement = document.getElementById("quiz");
     quizElement.classList.add("hidden");
     resultElement.classList.remove("hidden");
     scoreElement.textContent = `${score} out of ${quizQuestions.length}`;
     
-    const percentage = (score / quizQuestions.length) * 100;
+    const percentage = (score / quizQuestions.length) * 100;// Calculate the percentage score
     let message = "";
     if (percentage === 100) {
         message = "Perfect score! You're a true Star Trek fan!";
@@ -183,4 +184,4 @@ function showResult() {
 
 shuffle(quizQuestions); // Shuffle the questions at the start
 
-startQuiz();
+startQuiz(); // Start the quiz
